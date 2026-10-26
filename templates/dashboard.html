@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — PRESENCE</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/" class="brand">
+    <span class="brand-mark"><span class="dot"></span></span>
+    <span>PRESENCE<small>Attendance System</small></span>
+  </a>
+  <div class="nav-links" id="navLinks">
+    <a href="/">Home</a>
+    <a href="/dashboard">Dashboard</a>
+    <a href="/attendance">Mark Attendance</a>
+  </div>
+</nav>
+
+<main class="container">
+  <div class="page-header">
+    <div class="eyebrow">Live &middot; updates every few seconds</div>
+    <h1>Today's attendance</h1>
+    <p>A running view of every verified check-in, pulled straight from the recognition engine.</p>
+  </div>
+
+  <section class="stat-row">
+    <div class="panel stat-card accent">
+      <div class="label">Present today <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg></div>
+      <div class="value" id="statPresent">0</div>
+      <div class="sub" id="statPresentSub">No check-ins yet</div>
+    </div>
+    <div class="panel stat-card violet">
+      <div class="label">Avg. confidence <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg></div>
+      <div class="value" id="statConfidence">—</div>
+      <div class="sub">Similarity to enrollment photo</div>
+    </div>
+    <div class="panel stat-card coral">
+      <div class="label">Last check-in <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+      <div class="value" id="statLastTime">—</div>
+      <div class="sub" id="statLastName">Waiting for first scan</div>
+    </div>
+    <div class="panel stat-card">
+      <div class="label">Roster size <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+      <div class="value" id="statTotal">—</div>
+      <div class="sub">Set in dashboard.js</div>
+    </div>
+  </section>
+
+  <section class="dash-grid">
+    <div class="panel ring-card">
+      <h3>Attendance rate</h3>
+      <p class="hint">Present vs. class roster</p>
+      <div class="ring-wrap">
+        <svg viewBox="0 0 200 200">
+          <circle class="ring-track" cx="100" cy="100" r="86"></circle>
+          <circle class="ring-fill" id="ringFill" cx="100" cy="100" r="86" stroke-dasharray="540" stroke-dashoffset="540"></circle>
+        </svg>
+        <div class="ring-center">
+          <span class="n" id="ringNumber">0</span>
+          <span class="l" id="ringLabel">present</span>
+        </div>
+      </div>
+      <div class="ring-legend">
+        <div><span class="sw" style="background:var(--scan)"></span>Present</div>
+        <div><span class="sw" style="background:var(--line-strong)"></span>Remaining</div>
+      </div>
+    </div>
+
+    <div class="panel table-card">
+      <div class="table-card-head">
+        <h3>Check-in log <span class="live-tag" style="margin-left:10px"><span class="dot"></span>LIVE</span></h3>
+        <div class="actions">
+          <input type="text" class="search-input" id="searchInput" placeholder="Search by name or ID…">
+          <a href="/export" class="btn btn-ghost" style="padding:9px 18px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+            Export Excel
+          </a>
+        </div>
+      </div>
+
+      <div id="tableWrap">
+        <table class="roster" id="rosterTable" style="display:none;">
+          <thead>
+            <tr><th>Student</th><th>Time</th><th>Date</th><th>Confidence</th><th>Status</th></tr>
+          </thead>
+          <tbody id="rosterBody"></tbody>
+        </table>
+
+        <div class="empty-state" id="emptyState">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M9 10h.01M15 10h.01M9 15c1 1 2 1.5 3 1.5s2-.5 3-1.5"/></svg>
+          <p class="lead">No check-ins yet</p>
+          <p>Attendance will appear here the moment a student is verified on the scan page.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <span><span class="pulse"></span>Polling /get_attendance</span>
+  <span>PRESENCE — built for the classroom</span>
+</footer>
+
+<script src="{{ url_for('static', filename='js/common.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>

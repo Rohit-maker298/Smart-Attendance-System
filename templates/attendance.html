@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mark Attendance — PRESENCE</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/" class="brand">
+    <span class="brand-mark"><span class="dot"></span></span>
+    <span>PRESENCE<small>Attendance System</small></span>
+  </a>
+  <div class="nav-links" id="navLinks">
+    <a href="/">Home</a>
+    <a href="/dashboard">Dashboard</a>
+    <a href="/attendance">Mark Attendance</a>
+  </div>
+</nav>
+
+<main class="container">
+  <div class="page-header">
+    <div class="eyebrow">Camera &middot; live recognition</div>
+    <h1>Look at the camera</h1>
+    <p>Hold still until you're matched, then blink once to confirm you're really here.</p>
+  </div>
+
+  <section class="scan-layout">
+    <div class="panel camera-card">
+      <div class="scan-frame" id="scanFrame" style="position:relative;">
+        <div class="corner-a"></div><div class="corner-b"></div>
+        <div class="scan-line" id="sweepLine"></div>
+
+        <video id="video" autoplay playsinline muted></video>
+
+        <div class="capture-thumb" id="captureThumb">
+          <span class="cap-label">Last match</span>
+          <img id="thumbImg" alt="Last recognized frame">
+        </div>
+
+        <div class="camera-placeholder" id="cameraPlaceholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+          <p>Camera is off. Start scanning to begin marking attendance.</p>
+        </div>
+      </div>
+
+      <div class="result-banner" id="resultBanner">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>
+        <span id="resultText">Start scanning to begin marking attendance.</span>
+      </div>
+
+      <div class="camera-bar">
+        <div class="status">
+          <span class="status-dot" id="statusDot"></span>
+          <span id="statusLabel">Camera idle</span>
+          <span class="face-count" id="faceCount"></span>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;">
+          <span class="clock" id="clock">--:--:--</span>
+          <button class="btn btn-primary" id="toggleBtn">Start Scanning</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-panel">
+      <div class="panel side-card">
+        <h3>Session log <span class="face-count" id="logCount">0 today</span></h3>
+        <div class="session-log" id="sessionLog">
+          <div class="log-empty">Verified check-ins from this session will appear here.</div>
+        </div>
+      </div>
+
+      <div class="panel side-card">
+        <h3>For a clean match</h3>
+        <ul class="tips-list">
+          <li>Keep your face centered and roughly arm's length from the camera.</li>
+          <li>Make sure your face is evenly lit — avoid strong backlight.</li>
+          <li>Blink naturally once you see your name — no need to exaggerate it.</li>
+          <li>One student at a time in frame gives the fastest match.</li>
+        </ul>
+      </div>
+
+      <div class="panel side-card">
+        <div class="privacy-note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 4 6v6c0 5 3.4 8.4 8 10 4.6-1.6 8-5 8-10V6z"/></svg>
+          <span>Camera frames are matched in real time against enrollment photos and are never saved to disk.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <span><span class="pulse"></span>Posting to /process_frame</span>
+  <span>PRESENCE — built for the classroom</span>
+</footer>
+
+<script src="{{ url_for('static', filename='js/common.js') }}"></script>
+<script src="{{ url_for('static', filename='js/attendance.js') }}"></script>
+</body>
+</html>
